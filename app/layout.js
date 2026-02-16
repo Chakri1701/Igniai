@@ -4,8 +4,8 @@ import { getServerSession } from 'next-auth'
 import SessionProvider from '@/components/SessionProvider'
 
 export const metadata = {
-  title: 'IgniAI Technologies - Empowering Youth Careers',
-  description: 'Career consultancy platform for young professionals in Hyderabad',
+  title: 'Igni AI Technologies - IT Solutions & AI Services',
+  description: 'Leading IT services company in Hyderabad specializing in AI solutions, cloud services, and digital transformation',
 }
 
 export default async function RootLayout({ children }) {

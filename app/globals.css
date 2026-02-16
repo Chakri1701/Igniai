@@ -3,9 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --primary: #00ff88;
-  --secondary: #0088ff;
-  --accent: #ff0088;
+  --primary: #8B5CF6;
+  --secondary: #3B82F6;
+  --accent: #FF6B35;
+  --cyan: #06B6D4;
+  --background: #0F172A;
 }
 
 * {
@@ -16,95 +18,153 @@
 
 body {
   overflow-x: hidden;
+  background: #0F172A;
+  color: #ffffff;
 }
 
 @layer utilities {
   .text-gradient {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, #8B5CF6, #3B82F6, #06B6D4);
+    background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    animation: gradientShift 4s ease infinite;
   }
-  
-  .glow {
-    text-shadow: 0 0 20px var(--primary),
-                 0 0 40px var(--primary),
-                 0 0 60px var(--primary);
+
+  .text-gradient-fire {
+    background: linear-gradient(135deg, #FF6B35, #FF4500, #FFD700);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 3s ease infinite;
   }
-  
+
+  .btn-primary {
+    @apply px-6 py-3 rounded-full bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] text-white font-bold hover:shadow-lg hover:shadow-purple-500/50 hover:scale-105 transition-all duration-300;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-full border-2 border-white text-white font-bold hover:bg-white hover:text-[#0F172A] transition-all duration-300;
+  }
+
+  .btn-outline {
+    @apply px-6 py-3 rounded-full border-2 border-[#8B5CF6] text-[#8B5CF6] font-semibold hover:bg-[#8B5CF6] hover:text-white transition-all duration-300;
+  }
+
+  .btn-accent {
+    @apply px-6 py-3 rounded-full bg-gradient-to-r from-[#FF6B35] to-[#FF4500] text-white font-bold hover:shadow-lg hover:shadow-orange-500/50 hover:scale-105 transition-all duration-300;
+  }
+
+  .card {
+    @apply bg-white/5 backdrop-blur-md rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-white/10;
+  }
+
+  .card-light {
+    @apply bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100;
+  }
+
+  .section-padding {
+    @apply py-20 px-4 sm:px-6 lg:px-8;
+  }
+
   .glass {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  .animate-pulse-glow {
-    animation: pulseGlow 3s ease-in-out infinite;
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl;
   }
 }
 
-@keyframes float {
+@keyframes gradientShift {
   0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 20px var(--primary);
-  }
-  50% {
-    box-shadow: 0 0 40px var(--primary), 0 0 60px var(--primary);
-  }
-}
-
-@keyframes gradient {
-  0% {
     background-position: 0% 50%;
   }
   50% {
     background-position: 100% 50%;
   }
-  100% {
-    background-position: 0% 50%;
-  }
 }
 
-/* Scrollbar Styles */
+/* Elegant scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000;
+  background: #1E293B;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  background: linear-gradient(180deg, #8B5CF6, #3B82F6);
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+  background: linear-gradient(180deg, #7C3AED, #2563EB);
 }
 
-/* Input Styles */
-input, textarea {
-  color: white;
+/* Input styles */
+input, textarea, select {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
 }
 
 input::placeholder, textarea::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.4);
 }
 
-input:focus, textarea:focus {
+input:focus, textarea:focus, select:focus {
   outline: none;
-  border-color: var(--primary);
+  border-color: #8B5CF6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+p {
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.7;
+}
+
+/* Selection */
+::selection {
+  background-color: #8B5CF6;
+  color: #ffffff;
+}
+
+/* Focus states */
+*:focus-visible {
+  outline: 2px solid #8B5CF6;
+  outline-offset: 2px;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.6), 0 0 60px rgba(59, 130, 246, 0.4);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Remove number input arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

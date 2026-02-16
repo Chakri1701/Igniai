@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import Logo from './Logo'
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
@@ -9,60 +10,50 @@ export default function Navigation() {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
-    { name: 'Opportunities', href: '/opportunities' },
+    { name: 'Services', href: '/services' },
+    { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/contact' },
   ]
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0F172A]/95 backdrop-blur-md border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#00ff88] to-[#0088ff] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <span className="text-2xl font-bold text-black">I</span>
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gradient">IgniAI Technologies</h1>
-              <p className="text-xs text-gray-400">Empowering Careers</p>
-            </div>
-          </Link>
-
+        <Link href="/" className="flex items-center space-x-3 group">
+        <Logo className="w-12 h-12 group-hover:scale-110 transition-transform duration-300" />
+        <div className="text-2xl font-bold tracking-tight">
+        <span className="text-[#FF6B35]">Igni</span>
+        <span className="text-gradient">AI</span>
+      </div>
+      </Link>
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-gray-300 hover:text-[#00ff88] transition-colors duration-300 relative group"
+                className="text-white/70 hover:text-white font-medium transition-colors duration-200 relative group"
               >
                 {link.name}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#00ff88] to-[#0088ff] group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] group-hover:w-full transition-all duration-300"></span>
               </Link>
             ))}
-            <div className="flex items-center space-x-4">
-              <Link
-                href="/login"
-                className="px-6 py-2 rounded-lg border border-[#00ff88] text-[#00ff88] hover:bg-[#00ff88] hover:text-black transition-all duration-300"
-              >
-                Login
-              </Link>
-              <Link
-                href="/signup"
-                className="px-6 py-2 rounded-lg bg-gradient-to-r from-[#00ff88] to-[#0088ff] text-black font-semibold hover:shadow-lg hover:shadow-[#00ff88]/50 transition-all duration-300"
-              >
-                Sign Up
-              </Link>
-            </div>
+            <Link
+              href="/contact"
+              className="btn-primary"
+            >
+              Get Started
+            </Link>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg glass hover:bg-white/10 transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
           >
             <svg
-              className="w-6 h-6"
+              className="w-6 h-6 text-white"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -80,33 +71,26 @@ export default function Navigation() {
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden glass border-t border-white/10">
+        <div className="md:hidden bg-[#0F172A]/98 backdrop-blur-lg border-t border-white/10">
           <div className="px-4 pt-2 pb-4 space-y-2">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                className="block px-4 py-3 rounded-lg text-gray-300 hover:text-[#00ff88] hover:bg-white/5 transition-all duration-300"
+                className="block px-4 py-3 rounded-lg text-white/70 hover:text-white hover:bg-white/5 font-medium transition-all duration-200"
                 onClick={() => setIsOpen(false)}
               >
                 {link.name}
               </Link>
             ))}
             <Link
-              href="/login"
-              className="block px-4 py-3 rounded-lg border border-[#00ff88] text-[#00ff88] text-center hover:bg-[#00ff88] hover:text-black transition-all duration-300"
+              href="/contact"
+              className="block px-4 py-3 rounded-full bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] text-white font-bold text-center hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300"
               onClick={() => setIsOpen(false)}
             >
-              Login
-            </Link>
-            <Link
-              href="/signup"
-              className="block px-4 py-3 rounded-lg bg-gradient-to-r from-[#00ff88] to-[#0088ff] text-black font-semibold text-center hover:shadow-lg transition-all duration-300"
-              onClick={() => setIsOpen(false)}
-            >
-              Sign Up
+              Get Started
             </Link>
           </div>
         </div>

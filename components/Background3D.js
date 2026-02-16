@@ -13,7 +13,6 @@ export default function Background3D() {
     let animationFrameId
     let particles = []
 
-    // Set canvas size
     const resizeCanvas = () => {
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
@@ -21,74 +20,96 @@ export default function Background3D() {
     resizeCanvas()
     window.addEventListener('resize', resizeCanvas)
 
-    // Particle class
     class Particle {
       constructor() {
         this.x = Math.random() * canvas.width
         this.y = Math.random() * canvas.height
-        this.z = Math.random() * 2000
-        this.vx = (Math.random() - 0.5) * 0.5
-        this.vy = (Math.random() - 0.5) * 0.5
-        this.vz = Math.random() * 2 + 1
+        this.z = Math.random() * 1500
         this.size = Math.random() * 2 + 1
-        this.hue = Math.random() * 60 + 160 // Blue to cyan range
+        this.speedX = (Math.random() - 0.5) * 0.3
+        this.speedY = (Math.random() - 0.5) * 0.3
+        this.speedZ = Math.random() * 1 + 0.5
+        this.opacity = Math.random() * 0.5 + 0.3
+        this.hue = Math.random() > 0.5 ? 270 : 210 // Purple or Blue
       }
 
       update() {
-        this.x += this.vx
-        this.y += this.vy
-        this.z -= this.vz
+        this.x += this.speedX
+        this.y += this.speedY
+        this.z -= this.speedZ
 
         if (this.z <= 0) {
-          this.z = 2000
+          this.z = 1500
           this.x = Math.random() * canvas.width
           this.y = Math.random() * canvas.height
         }
 
-        if (this.x < 0 || this.x > canvas.width) this.vx *= -1
-        if (this.y < 0 || this.y > canvas.height) this.vy *= -1
+        if (this.x < 0) this.x = canvas.width
+        if (this.x > canvas.width) this.x = 0
+        if (this.y < 0) this.y = canvas.height
+        if (this.y > canvas.height) this.y = 0
       }
 
       draw() {
-        const scale = 1000 / this.z
+        const scale = 800 / (this.z + 800)
         const x2d = (this.x - canvas.width / 2) * scale + canvas.width / 2
         const y2d = (this.y - canvas.height / 2) * scale + canvas.height / 2
-        const size = this.size * scale
+        const size = Math.max(this.size * scale, 0.5)
+        const opacity = Math.max((1 - this.z / 1500) * this.opacity, 0)
 
-        if (x2d < -50 || x2d > canvas.width + 50 || y2d < -50 || y2d > canvas.height + 50) {
-          return
-        }
+        // Outer glow
+        const gradient = ctx.createRadialGradient(x2d, y2d, 0, x2d, y2d, size * 4)
+        gradient.addColorStop(0, `hsla(${this.hue}, 70%, 60%, ${opacity * 0.8})`)
+        gradient.addColorStop(0.5, `hsla(${this.hue}, 70%, 50%, ${opacity * 0.3})`)
+        gradient.addColorStop(1, `hsla(${this.hue}, 70%, 40%, 0)`)
+        
+        ctx.fillStyle = gradient
+        ctx.beginPath()
+        ctx.arc(x2d, y2d, size * 4, 0, Math.PI * 2)
+        ctx.fill()
 
-        const opacity = 1 - this.z / 2000
-        ctx.fillStyle = `hsla(${this.hue}, 100%, 60%, ${opacity})`
+        // Core particle
+        ctx.fillStyle = `hsla(${this.hue}, 70%, 60%, ${opacity})`
         ctx.beginPath()
         ctx.arc(x2d, y2d, size, 0, Math.PI * 2)
         ctx.fill()
-
-        // Add glow effect for closer particles
-        if (this.z < 500) {
-          ctx.shadowBlur = 20
-          ctx.shadowColor = `hsla(${this.hue}, 100%, 60%, ${opacity})`
-          ctx.fill()
-          ctx.shadowBlur = 0
-        }
       }
     }
 
-    // Create particles
-    for (let i = 0; i < 200; i++) {
+    // Initialize particles
+    for (let i = 0; i < 150; i++) {
       particles.push(new Particle())
     }
 
-    // Animation loop
     const animate = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
+      // Deep navy gradient background
+      const bgGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
+      bgGradient.addColorStop(0, '#0F172A')
+      bgGradient.addColorStop(0.5, '#1E293B')
+      bgGradient.addColorStop(1, '#0F172A')
+      ctx.fillStyle = bgGradient
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      // Draw connections between close particles
-      ctx.strokeStyle = 'rgba(0, 255, 136, 0.1)'
-      ctx.lineWidth = 0.5
+      // Subtle gradient orbs
+      const purpleGlow = ctx.createRadialGradient(
+        canvas.width * 0.8, canvas.height * 0.2, 0,
+        canvas.width * 0.8, canvas.height * 0.2, 500
+      )
+      purpleGlow.addColorStop(0, 'rgba(139, 92, 246, 0.08)')
+      purpleGlow.addColorStop(1, 'rgba(15, 23, 42, 0)')
+      ctx.fillStyle = purpleGlow
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
 
+      const blueGlow = ctx.createRadialGradient(
+        canvas.width * 0.2, canvas.height * 0.8, 0,
+        canvas.width * 0.2, canvas.height * 0.8, 500
+      )
+      blueGlow.addColorStop(0, 'rgba(59, 130, 246, 0.06)')
+      blueGlow.addColorStop(1, 'rgba(15, 23, 42, 0)')
+      ctx.fillStyle = blueGlow
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+      // Draw connecting lines between nearby particles
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x
@@ -97,16 +118,16 @@ export default function Background3D() {
           const distance = Math.sqrt(dx * dx + dy * dy + dz * dz)
 
           if (distance < 200) {
-            const opacity = (1 - distance / 200) * 0.3
-            ctx.strokeStyle = `rgba(0, 255, 136, ${opacity})`
-            
-            const scale1 = 1000 / particles[i].z
-            const scale2 = 1000 / particles[j].z
+            const scale1 = 800 / (particles[i].z + 800)
+            const scale2 = 800 / (particles[j].z + 800)
             const x1 = (particles[i].x - canvas.width / 2) * scale1 + canvas.width / 2
             const y1 = (particles[i].y - canvas.height / 2) * scale1 + canvas.height / 2
             const x2 = (particles[j].x - canvas.width / 2) * scale2 + canvas.width / 2
             const y2 = (particles[j].y - canvas.height / 2) * scale2 + canvas.height / 2
 
+            const opacity = (1 - distance / 200) * 0.2
+            ctx.strokeStyle = `rgba(139, 92, 246, ${opacity})`
+            ctx.lineWidth = 1
             ctx.beginPath()
             ctx.moveTo(x1, y1)
             ctx.lineTo(x2, y2)
@@ -133,10 +154,12 @@ export default function Background3D() {
   }, [])
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed top-0 left-0 w-full h-full -z-10"
-      style={{ background: 'radial-gradient(circle at center, #0a0a0a 0%, #000000 100%)' }}
-    />
+    <div className="fixed top-0 left-0 w-full h-full -z-10">
+      <canvas
+        ref={canvasRef}
+        className="w-full h-full"
+        style={{ background: '#0F172A' }}
+      />
+    </div>
   )
 }
