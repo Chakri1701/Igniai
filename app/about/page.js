@@ -285,56 +285,69 @@ export default function About() {
         </div>
       </section>
 
-      {/* Our Approach */}
-      <section className="pb-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="card p-12 bg-gradient-to-br from-purple-500/10 via-blue-500/10 to-cyan-500/10">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
-                Our Approach
-              </h2>
-              <p className="text-xl text-white/70 max-w-3xl mx-auto">
-                We follow a proven methodology to deliver exceptional results
-              </p>
-            </div>
+ {/* Our Approach */}
+<section className="pb-20 px-4">
+  <div className="max-w-7xl mx-auto">
+    <div className="card p-12 bg-gradient-to-br from-purple-500/10 via-blue-500/10 to-cyan-500/10">
+      <div className="text-center mb-12">
+        <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
+          Our Approach
+        </h2>
+        <p className="text-xl text-white/70 max-w-3xl mx-auto">
+          We follow a proven methodology to deliver exceptional results
+        </p>
+      </div>
 
-            <div className="grid md:grid-cols-4 gap-8">
-              {[
-                {
-                  number: '01',
-                  title: 'Discover',
-                  description: 'We analyze your business needs, challenges, and goals to create a tailored technology roadmap.',
-                },
-                {
-                  number: '02',
-                  title: 'Design',
-                  description: 'Our experts architect scalable solutions that align with your objectives and industry best practices.',
-                },
-                {
-                  number: '03',
-                  title: 'Develop',
-                  description: 'We build robust, high-quality solutions using agile methodologies and cutting-edge technologies.',
-                },
-                {
-                  number: '04',
-                  title: 'Deploy & Support',
-                  description: 'We ensure smooth deployment and provide ongoing support to maximize your technology investment.',
-                },
-              ].map((step, index) => (
-                <div key={index} className="relative">
-                  <div className="text-6xl font-bold text-white/10 mb-4">{step.number}</div>
-                  <h3 className="text-2xl font-bold text-white mb-3">{step.title}</h3>
-                  <p className="text-white/70 leading-relaxed">{step.description}</p>
-                  
-                  {index < 3 && (
-                    <div className="hidden md:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-purple-500/50 to-transparent"></div>
-                  )}
-                </div>
-              ))}
+      <div className="grid md:grid-cols-4 gap-8">
+        {[
+          {
+            number: '01',
+            title: 'Discover',
+            description: 'We analyze your business needs, challenges, and goals to create a tailored technology roadmap.',
+            color: 'from-purple-500 to-blue-500',
+          },
+          {
+            number: '02',
+            title: 'Design',
+            description: 'Our experts architect scalable solutions that align with your objectives and industry best practices.',
+            color: 'from-blue-500 to-cyan-500',
+          },
+          {
+            number: '03',
+            title: 'Develop',
+            description: 'We build robust, high-quality solutions using agile methodologies and cutting-edge technologies.',
+            color: 'from-cyan-500 to-teal-500',
+          },
+          {
+            number: '04',
+            title: 'Deploy & Support',
+            description: 'We ensure smooth deployment and provide ongoing support to maximize your technology investment.',
+            color: 'from-orange-500 to-red-500',
+          },
+        ].map((step, index) => (
+          <div key={index} className="relative">
+            {/* Colored circle with number */}
+            <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${step.color} flex items-center justify-center mb-4 shadow-lg`}>
+              <span className="text-2xl font-bold text-white">{step.number}</span>
             </div>
+            
+            <h3 className="text-2xl font-bold text-white mb-3">{step.title}</h3>
+            <p className="text-white/70 leading-relaxed">{step.description}</p>
+            
+            {/* Arrow connector */}
+            {index < 3 && (
+              <div className="hidden md:block absolute top-8 left-full w-8 -ml-4">
+                <svg className="w-8 h-4 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </div>
+            )}
           </div>
-        </div>
-      </section>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Why Choose Us */}
       <section className="pb-20 px-4">

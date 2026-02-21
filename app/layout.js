@@ -1,23 +1,19 @@
 import './globals.css'
 import Navigation from '@/components/Navigation'
-import { getServerSession } from 'next-auth'
-import SessionProvider from '@/components/SessionProvider'
+import Footer from '@/components/Footer'
 
 export const metadata = {
-  title: 'Igni AI Technologies - IT Solutions & AI Services',
-  description: 'Leading IT services company in Hyderabad specializing in AI solutions, cloud services, and digital transformation',
+  title: 'IgniAI - AI-Powered IT Solutions',
+  description: 'Transform your business with cutting-edge AI solutions, cloud services, and digital innovation.',
 }
 
-export default async function RootLayout({ children }) {
-  const session = await getServerSession()
-  
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="bg-black text-white antialiased">
-        <SessionProvider session={session}>
-          <Navigation />
-          {children}
-        </SessionProvider>
+      <body className="bg-[#0F172A] text-white">
+        <Navigation />
+        {children}
+        <Footer />
       </body>
     </html>
   )
